@@ -1,0 +1,11 @@
+{% extends "example_app/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+  <div class="row m-t-2">
+    {% get_current_language as LANGUAGE_CODE %}
+    <p>Current language: {{ LANGUAGE_CODE }}</p>
+    <p>{% trans "My translated content" %}</p>
+  </div>
+{% endblock content %}

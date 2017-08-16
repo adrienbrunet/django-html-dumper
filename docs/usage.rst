@@ -11,4 +11,3 @@ To use HTML dumper in a project, add it to your `INSTALLED_APPS`:
         'html_dumper.apps.HtmlDumperConfig',
         ...
     )
-

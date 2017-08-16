@@ -35,23 +35,11 @@ Add it to your `INSTALLED_APPS`:
         ...
     )
 
-Add HTML dumper's URL patterns:
-
-.. code-block:: python
-
-    from html_dumper import urls as html_dumper_urls
-
-
-    urlpatterns = [
-        ...
-        url(r'^', include(html_dumper_urls)),
-        ...
-    ]
 
 Features
 --------
 
-* TODO
+* Dumps html page
 
 Running Tests
 -------------
