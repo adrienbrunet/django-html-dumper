@@ -41,7 +41,7 @@ Features
 
 * Add a django command `dump_html`
 
-code-block::
+.. code-block::
     python manage.py dump_html [path/to/my/page1 my/page2] (default to ['/', ])
 
 
