@@ -6,6 +6,7 @@ from django.core.management import call_command
 from django.core.management.base import BaseCommand, CommandError
 from django.test.client import Client
 from django.utils import translation
+from os.path import join
 
 
 class Command(BaseCommand):
@@ -18,8 +19,14 @@ class Command(BaseCommand):
             nargs='*',
             type=str,
             help=(
-                'Specify a list of URLs that you want their page to be dumped'
+                'Specify a list of URLs in this website that you want dumped'
             ),
+        )
+        parser.add_argument(
+            '--exclude', '-e',
+            action='append',
+            dest='exclude',
+            help='Exclude a static folder from the output. Can be used multiple times.'
         )
 
     def handle(self, *args, **options):
@@ -48,7 +55,14 @@ class Command(BaseCommand):
         static_dir = os.path.join(output_dir, 'static')
         if os.path.exists(static_dir):
             shutil.rmtree(static_dir)
-        shutil.copytree(settings.STATIC_ROOT, static_dir)
+
+        # Copy static folder tree into output static directory
+        # But ignore all files that are in excluded directories
+        excluded = [join(settings.STATIC_ROOT, prefix) for prefix in options.get('exclude') or []]  # full paths
+        shutil.copytree(
+            src=settings.STATIC_ROOT, dst=static_dir,
+            ignore=lambda src, names: names if any(src.startswith(prefix) for prefix in excluded) else []
+        )
 
         responses = []
         invalid = []
